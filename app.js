@@ -10,7 +10,7 @@ const els = {
   summary: document.getElementById("summaryText"),
   list: document.getElementById("memberList"),
   detail: document.getElementById("detailPanel"),
-  
+  memberDetailsBtn: document.getElementById("memberDetailsBtn"),
   refresh: document.getElementById("refreshBtn"),
 };
 
@@ -209,6 +209,14 @@ function renderMember(member) {
 
     </div>
 
+    <div class="detail-nav">
+
+        <button id="homeBtn">
+            Home
+        </button>
+
+    </div>
+
     <div class="doc-grid">
       ${documentButton("Membership Card", docs.membership_card)}
       ${documentButton("Ledger", docs.ledger)}
@@ -220,16 +228,22 @@ function renderMember(member) {
 
     renderListActiveOnly();
 
-  setTimeout(() => {
+    const homeBtn = document.getElementById("homeBtn");
 
-      window.scrollTo({
-          top: els.detail.offsetTop - 15,
-          behavior: "smooth"
-      });
+    if (homeBtn) {
 
-  }, 100);
+        homeBtn.addEventListener("click", () => {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        });
+
+    }
+  
 }
-
 
 
 function renderListActiveOnly() {
@@ -237,6 +251,7 @@ function renderListActiveOnly() {
     row.classList.toggle("active", row.dataset.memb === selectedMemberNo);
   });
 }
+
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -263,6 +278,18 @@ els.list.addEventListener("click", event => {
   if (member) renderMember(member);
 });
 
+
+els.memberDetailsBtn.addEventListener("click", () => {
+
+    if (!selectedMemberNo) return;
+
+    window.scrollTo({
+            top: els.detail.offsetTop - 15,
+            behavior: "smooth"
+        });
+
+    });
+    
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(() => {});
