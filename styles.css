@@ -22,6 +22,32 @@ body {
   color: var(--ink);
 }
 
+.nav-buttons,
+.detail-nav {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0;
+}
+
+#memberDetailsBtn,
+#homeBtn {
+    min-width: 140px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #0d6efd, #084298);
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+#memberDetailsBtn:hover,
+#homeBtn:hover {
+    opacity: 0.9;
+}
+
 .stats-bar{
     display:grid;
     grid-template-columns:repeat(4,1fr);
