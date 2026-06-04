@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123a63">
+  <title>IIHT Alumni Members</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+
+  <div class="header-left">
+
+      <img
+          src="logo.png"
+          class="logo"
+          alt="IIHT Alumni">
+
+      <div>
+          <h1>IIHT Alumni Association</h1>
+          <p>Connecting Alumni Across India</p>
+      </div>
+
+  </div>
+
+  <button id="refreshBtn"
+          class="ghost-btn">
+      Refresh
+  </button>
+
+</header>
+
+<section class="stats-bar">
+
+  <div class="stat-card">
+      <span>Total Members</span>
+      <strong id="totalMembers">0</strong>
+  </div>
+
+  <div class="stat-card">
+      <span>Founder Members</span>
+      <strong id="founderMembers">0</strong>
+  </div>
+
+  <div class="stat-card">
+      <span>Life Members</span>
+      <strong id="lifeMembers">0</strong>
+  </div>
+  
+  <div class="stat-card">
+      <span>General Members</span>
+      <strong id="generalMembers">0</strong>
+  </div>
+
+</section>
+
+  <main class="app-shell">
+    <section class="toolbar" aria-label="Search and filters">
+      <label class="search-box">
+        <span>Search</span>
+        <input id="searchInput" type="search" placeholder="Name, membership no, batch, mobile">
+      </label>
+      <label>
+        <span>Membership</span>
+        <select id="typeFilter">
+          <option value="">All</option>
+        </select>
+      </label>
+      <label>
+        <span>Batch</span>
+        <select id="batchFilter">
+          <option value="">All</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="status-line">
+      <span id="summaryText">Loading members...</span>
+      
+    </section>
+
+    <section class="content-grid">
+      <aside class="member-list-panel">
+        <div id="memberList" class="member-list"></div>
+      </aside>
+
+      <section id="detailPanel" class="detail-panel empty">
+        <h2>Select a member</h2>
+        <p>Search or tap a member name to view card, ledger, and receipts.</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

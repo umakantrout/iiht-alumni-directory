@@ -1,0 +1,8 @@
+{
+  "name": "IIHT Alumni Members",
+  "short_name": "IIHT Alumni",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#eef2f7",
+  "theme_color": "#123a63"
+}
