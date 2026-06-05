@@ -1,5 +1,5 @@
 {
-  "generated_on": "04-06-2026",
+  "generated_on": "05-06-2026",
   "source": "IIHT Alumni Management System",
   "total_members": 414,
   "members": [
@@ -11148,15 +11148,16 @@
       "state": "West Bengal",
       "mobile": "9051603766",
       "current_memb": "General Member",
-      "current_due": 400.0,
-      "amount_received": 2200.0,
+      "current_due": 0.0,
+      "amount_received": 2600.0,
       "current_location": "WEST BENGAL",
       "joining_type": "General Member",
       "joining_date": "31-01-2024",
       "joining_receipt_no": "NJ-0280",
       "receipt_numbers": [
         "NJ-0280",
-        "RR-0114"
+        "RR-0114",
+        "RR-0149"
       ],
       "documents": {
         "ledger": {
