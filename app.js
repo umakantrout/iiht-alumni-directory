@@ -210,6 +210,24 @@ console.log("Photo:", member.photo);
              WhatsApp
           </a>
 
+          ${docs.membership_card?.exists
+  	    ? `<a class="action-btn"
+        	    href="${docs.membership_card.url}"
+        	    target="_blank">
+        	    Membership Card
+     	    </a>`
+  	    : ""
+	  }
+
+	  ${docs.ledger?.exists
+  	    ? `<a class="action-btn"
+        	  href="${docs.ledger.url}"
+        	  target="_blank">
+        	  Ledger
+     	       </a>`
+  	    : ""
+          }
+
       </div>
 
     </div>
@@ -286,14 +304,7 @@ console.log("Photo:", member.photo);
 
     </div>
 
-      <div class="doc-grid">
-
-          ${documentButton("Membership Card", docs.membership_card)}
-
-          ${documentButton("Ledger", docs.ledger)}
-
-      </div>
-
+      
       <div class="detail-nav">
 
           <button id="prevBtn">

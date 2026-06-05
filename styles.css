@@ -424,6 +424,17 @@ input:focus, select:focus {
     margin-top:12px;
 }
 
+.action-btn{
+    display:block;
+    text-align:center;
+    background:#123a63;
+    color:white;
+    text-decoration:none;
+    padding:10px;
+    border-radius:8px;
+    font-weight:700;
+}
+
 .wa-btn{
     display:inline-block;
     background:#25D366;
@@ -520,6 +531,9 @@ input:focus, select:focus {
     border-radius:10px;
     padding:14px;
     line-height:1.6;
+
+    max-height:120px;
+    overflow-y:auto;
 }
 
 @media (max-width: 860px) {
