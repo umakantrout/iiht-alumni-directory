@@ -459,6 +459,69 @@ input:focus, select:focus {
     border-top:4px solid #0d6efd;
 }
 
+.profile-body{
+    margin-top:16px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+}
+
+.info-row span{
+    font-size:14px;
+    color:var(--muted);
+    min-width:130px;
+    font-weight:600;
+}
+
+.value-box{
+    background:#f8fafc;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:6px 12px;
+    font-weight:700;
+    color:var(--navy);
+}
+
+.value-group{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.receipt-btn{
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:8px 12px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.job-profile{
+    margin-top:18px;
+}
+
+.job-profile h3{
+    color:var(--navy);
+    margin-bottom:10px;
+}
+
+.job-box{
+    background:#f8fafc;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px;
+    line-height:1.6;
+}
+
 @media (max-width: 860px) {
 
   .toolbar,
