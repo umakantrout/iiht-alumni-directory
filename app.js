@@ -164,6 +164,7 @@ function documentButton(title, info) {
 }
 
 function renderMember(member) {
+console.log("Photo:", member.photo);
   selectedMemberNo = member.memb_no;
   const docs = member.documents || {};
   const due = Number(member.current_due || 0);
@@ -175,7 +176,34 @@ function renderMember(member) {
         <h2>${escapeHtml(member.memb_name)}</h2>
         <p>${escapeHtml(member.memb_no)} · Batch ${escapeHtml(member.batch)} · IIHT ${escapeHtml(member.institute)}</p>
       </div>
-      <span class="badge">${escapeHtml(member.current_memb || "")}</span>
+      
+    </div>
+
+    <div class="profile-section">
+
+      <div class="profile-photo">
+
+        ${member.photo
+          ? `<img src="${member.photo}" alt="${escapeHtml(member.memb_name)}">`
+          : `<div class="photo-placeholder">PHOTO</div>`
+        }
+
+      </div>
+
+      <div class="profile-actions">
+
+          <span class="badge">
+            ${escapeHtml(member.current_memb || "")}
+          </span>
+
+          <a class="wa-btn"
+             href="https://wa.me/91${String(member.mobile).replace(/\D/g,'')}"
+             target="_blank">
+             WhatsApp
+          </a>
+
+      </div>
+
     </div>
 
     <div class="kpis">
@@ -197,18 +225,7 @@ function renderMember(member) {
       <div><span>Joining</span><strong>${escapeHtml(member.joining_type || "")} · ${escapeHtml(member.joining_date || "")}</strong></div>
     </div>
 
-    <div class="action-buttons">
-
-      <a class="wa-btn"
-         href="https://wa.me/91${String(member.mobile).replace(/\D/g,'')}"
-         target="_blank">
-
-         WhatsApp
-
-      </a>
-
-    </div>
-
+    
     <div class="detail-nav">
 
         <button id="homeBtn">
