@@ -163,6 +163,14 @@ function documentButton(title, info) {
   `;
 }
 
+function openReceiptFolder(url){
+
+    if(url){
+        window.open(url, "_blank");
+    }
+
+}
+
 function renderMember(member) {
 console.log("Photo:", member.photo);
   selectedMemberNo = member.memb_no;
@@ -206,40 +214,101 @@ console.log("Photo:", member.photo);
 
     </div>
 
-    <div class="kpis">
-      <div class="kpi ${due > 0 ? "due-positive" : "due-clear"}">
-        <span>Current Due</span>
-        <strong>${money(due)}</strong>
+    <div class="profile-body">
+
+      <div class="info-row">
+          <span>Current Due</span>
+          <strong class="value-box">
+              ${money(due)}
+          </strong>
       </div>
-      <div class="kpi">
-        <span>Amount Received</span>
-        <strong>${money(member.amount_received)}</strong>
+
+      <div class="info-row">
+
+          <span>Amount Received</span>
+
+          <div class="value-group">
+
+              <strong class="value-box">
+                  ${money(member.amount_received)}
+              </strong>
+
+              <button class="receipt-btn"
+                      onclick="openReceiptFolder('${docs.receipt_folder?.mega_link || ''}')">
+                  View Receipts
+              </button>
+
+          </div>
+
       </div>
-      
+
+      <div class="info-row">
+          <span>Mobile</span>
+          <strong class="value-box">
+              ${escapeHtml(member.mobile || "")}
+          </strong>
+      </div>
+
+      <div class="info-row">
+          <span>State</span>
+          <strong class="value-box">
+              ${escapeHtml(member.state || "")}
+          </strong>
+      </div>
+
+      <div class="info-row">
+          <span>Current Location</span>
+          <strong class="value-box">
+              ${escapeHtml(member.current_location || "")}
+          </strong>
+      </div>
+
+      <div class="info-row">
+          <span>Joining</span>
+          <strong>
+              ${escapeHtml(member.joining_type || "")}
+              ·
+              ${escapeHtml(member.joining_date || "")}
+          </strong>
+      </div>
+
     </div>
 
-    <div class="info-grid">
-      <div><span>Mobile</span><strong>${escapeHtml(member.mobile || "")}</strong></div>
-      <div><span>State</span><strong>${escapeHtml(member.state || "")}</strong></div>
-      <div><span>Current Location</span><strong>${escapeHtml(member.current_location || "")}</strong></div>
-      <div><span>Joining</span><strong>${escapeHtml(member.joining_type || "")} · ${escapeHtml(member.joining_date || "")}</strong></div>
-    </div>
+      <div class="job-profile">
 
-    
-    <div class="detail-nav">
+      <h3>Current Job Profile</h3>
 
-        <button id="homeBtn">
-            Home
-        </button>
+      <div class="job-box">
+
+          ${escapeHtml(member.job_profile || "Not Available")}
+
+      </div>
 
     </div>
 
-    <div class="doc-grid">
-      ${documentButton("Membership Card", docs.membership_card)}
-      ${documentButton("Ledger", docs.ledger)}
-      ${documentButton("Receipt Folder", docs.receipt_folder)}
-    </div>
+      <div class="doc-grid">
 
+          ${documentButton("Membership Card", docs.membership_card)}
+
+          ${documentButton("Ledger", docs.ledger)}
+
+      </div>
+
+      <div class="detail-nav">
+
+          <button id="prevBtn">
+              ◀ Previous
+          </button>
+
+          <button id="homeBtn">
+              Home
+          </button>
+
+          <button id="nextBtn">
+              Next ▶
+          </button>
+
+      </div>
     
   `;
 
