@@ -62,28 +62,24 @@
         <span>Search</span>
         <input id="searchInput" type="search" placeholder="Name, membership no, batch, mobile">
       </label>
+
       <label>
         <span>Membership</span>
         <select id="typeFilter">
           <option value="">All</option>
         </select>
       </label>
+
       <label>
         <span>Batch</span>
         <select id="batchFilter">
           <option value="">All</option>
         </select>
       </label>
+
     </section>
 
-  <div class="nav-buttons">
-
-      <button id="memberDetailsBtn">
-          Member Details
-      </button>
-
-  </div>
-
+  
     <section class="status-line">
       <span id="summaryText">Loading members...</span>
       
@@ -93,12 +89,23 @@
       <aside class="member-list-panel">
         <div id="memberList" class="member-list"></div>
       </aside>
-
-      <section id="detailPanel" class="detail-panel empty">
-        <h2>Select a member</h2>
-        <p>Search or tap a member name to view card, ledger, and receipts.</p>
-      </section>
+      
     </section>
+
+    <div class="member-details-row">
+
+        <button id="memberDetailsBtn">
+            Member Details
+        </button>
+
+    </div>
+
+    <section id="detailPanel" class="detail-panel empty">
+            <h2>Select a member</h2>
+            <p>Search or tap a member name to view card, ledger, and receipts.</p>
+    </section>
+
+
   </main>
 
   <script src="app.js"></script>

@@ -29,9 +29,20 @@ body {
     margin: 10px 0;
 }
 
-#memberDetailsBtn,
+
+#memberDetailsBtn{
+    width:100%;
+    font-size:16px;
+    font-weight:700;
+    padding:12px;
+}
+
+.member-details-row{
+    margin-top:8px;
+}
+
 #homeBtn {
-    min-width: 140px;
+    min-width: 160px;
     font-size: 15px;
     font-weight: 700;
     padding: 12px 22px;
@@ -43,15 +54,36 @@ body {
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
+#prevBtn,
+#nextBtn{
+    min-width:90px;
+    font-size:15px;
+    padding:10px 14px;
+}
+
 #memberDetailsBtn:hover,
 #homeBtn:hover {
     opacity: 0.9;
 }
 
+#memberDetailsBtn:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+    
+}
+
+.member-details-row{
+    margin-top:6px;
+}
+
+#detailPanel{
+    display:none;
+}
+
 .profile-section {
     display: flex;
     gap: 16px;
-    margin: 16px 0;
+    margin: 12px 0 6px 0;
     align-items: flex-start;
 }
 
@@ -210,7 +242,12 @@ input:focus, select:focus {
   align-items: start;
 }
 
-.member-list-panel,
+.member-list-panel {
+  background: var(--card);
+  padding-bottom:8px;
+  border: 1px solid var(--line);
+}
+
 .detail-panel {
   background: var(--card);
   border: 1px solid var(--line);
@@ -218,8 +255,8 @@ input:focus, select:focus {
 }
 
 .member-list {
-  max-height: calc(100vh - 220px);
-  overflow: auto;
+  height:200px;
+    overflow-y:auto;
 }
 
 .member-row {
@@ -497,6 +534,8 @@ input:focus, select:focus {
     padding:6px 12px;
     font-weight:700;
     color:var(--navy);
+    min-width:110px;
+    text-align:center;
 }
 
 .info-row strong{

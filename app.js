@@ -2,6 +2,7 @@ let indexData = null;
 let members = [];
 let filtered = [];
 let selectedMemberNo = "";
+let selectedMember = null;
 
 const els = {
   search: document.getElementById("searchInput"),
@@ -109,7 +110,12 @@ function applyFilters() {
     if (q && !memberSearchText(member).includes(q)) return false;
     return true;
   });
+
+  selectedMemberNo = "";
+  selectedMember = null;
+
   renderList();
+  els.memberDetailsBtn.disabled = !selectedMemberNo;
   els.summary.textContent = `${filtered.length} of ${members.length} members`;
 }
 
@@ -127,12 +133,13 @@ function renderList() {
     </button>
   `).join("");
 
-  if (!selectedMemberNo || !filtered.some(m => m.memb_no === selectedMemberNo)) {
-    renderMember(filtered[0]);
+  if (!selectedMemberNo) {
+    renderEmpty();
   }
 }
 
 function renderEmpty() {
+  els.detail.style.display = "none";
   els.detail.className = "detail-panel empty";
   els.detail.innerHTML = "<h2>Select a member</h2><p>Search or tap a member name to view card, ledger, and receipts.</p>";
 }
@@ -172,6 +179,7 @@ function openReceiptFolder(url){
 }
 
 function renderMember(member) {
+els.detail.style.display = "block";
 console.log("Photo:", member.photo);
   selectedMemberNo = member.memb_no;
   const docs = member.documents || {};
@@ -369,23 +377,54 @@ els.type.addEventListener("change", applyFilters);
 els.batch.addEventListener("change", applyFilters);
 els.refresh.addEventListener("click", loadIndex);
 els.list.addEventListener("click", event => {
-  const button = event.target.closest(".member-row[data-memb]");
-  if (!button) return;
-  const member = members.find(m => m.memb_no === button.dataset.memb);
-  if (member) renderMember(member);
+
+    const button =
+        event.target.closest(".member-row[data-memb]");
+
+    if (!button) return;
+
+    const membNo =
+        button.dataset.memb;
+
+    if (selectedMemberNo === membNo) {
+
+        selectedMemberNo = "";
+        selectedMember = null;
+
+        els.memberDetailsBtn.disabled = true;
+
+    } else {
+
+        selectedMemberNo = membNo;
+
+        selectedMember =
+            members.find(
+                m => m.memb_no === membNo
+            );
+
+        els.memberDetailsBtn.disabled = false;
+
+    }
+
+    renderListActiveOnly();
+
 });
 
 
 els.memberDetailsBtn.addEventListener("click", () => {
 
-    if (!selectedMemberNo) return;
+    if (!selectedMember) return;
+
+    renderMember(selectedMember);
+
+    els.detail.style.display = "block";
 
     window.scrollTo({
-            top: els.detail.offsetTop - 15,
-            behavior: "smooth"
-        });
-
+        top: els.detail.offsetTop - 15,
+        behavior: "smooth"
     });
+
+});
     
 
 if ("serviceWorker" in navigator) {
@@ -393,3 +432,5 @@ if ("serviceWorker" in navigator) {
 }
 
 loadIndex();
+
+els.memberDetailsBtn.disabled = true;
