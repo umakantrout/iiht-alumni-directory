@@ -1,17 +1,20 @@
 let indexData = null;
 let members = [];
 let filtered = [];
-let selectedMemberNo = "";
-let selectedMember = null;
+let currentMemberNo = "";
 
 const els = {
+  page1Toolbar:
+      document.getElementById("page1Toolbar"),
+
+  page1Content:
+      document.getElementById("page1Content"),
   search: document.getElementById("searchInput"),
   type: document.getElementById("typeFilter"),
   batch: document.getElementById("batchFilter"),
   summary: document.getElementById("summaryText"),
   list: document.getElementById("memberList"),
-  detail: document.getElementById("detailPanel"),
-  memberDetailsBtn: document.getElementById("memberDetailsBtn"),
+  detail: document.getElementById("detailPanel"),  
   refresh: document.getElementById("refreshBtn"),
 };
 
@@ -111,32 +114,52 @@ function applyFilters() {
     return true;
   });
 
-  selectedMemberNo = "";
-  selectedMember = null;
-
+  
   renderList();
-  els.memberDetailsBtn.disabled = !selectedMemberNo;
+  
   els.summary.textContent = `${filtered.length} of ${members.length} members`;
 }
 
 function renderList() {
   if (!filtered.length) {
-    els.list.innerHTML = '<div class="member-row"><strong>No members found</strong><span>Try another search or filter.</span></div>';
+    els.list.innerHTML =
+      '<div class="member-row"><strong>No members found</strong><span>Try another search or filter.</span></div>';
+
     renderEmpty();
     return;
   }
 
   els.list.innerHTML = filtered.map(member => `
-    <button class="member-row ${member.memb_no === selectedMemberNo ? "active" : ""}" data-memb="${escapeAttr(member.memb_no)}">
-      <strong>${escapeHtml(member.memb_name || "Unnamed member")}</strong>
-      <span>${escapeHtml(member.memb_no)} · Batch ${escapeHtml(member.batch)} · ${escapeHtml(member.current_memb)}</span>
-    </button>
+    <div class="member-row">
+
+        <div class="member-info">
+
+            <strong>
+                ${escapeHtml(member.memb_name || "Unnamed member")}
+            </strong>
+
+            <span>
+                ${escapeHtml(member.memb_no)}
+                · Batch ${escapeHtml(member.batch)}
+                · ${escapeHtml(member.current_memb)}
+            </span>
+
+        </div>
+
+        <button
+            class="open-member-btn"
+            data-memb="${escapeAttr(member.memb_no)}">
+
+            ›
+
+        </button>
+
+    </div>
   `).join("");
 
-  if (!selectedMemberNo) {
-    renderEmpty();
-  }
-}
+  renderEmpty();
+
+}   
 
 function renderEmpty() {
   els.detail.style.display = "none";
@@ -178,22 +201,46 @@ function openReceiptFolder(url){
 
 }
 
+
 function renderMember(member) {
-els.detail.style.display = "block";
-console.log("Photo:", member.photo);
-  selectedMemberNo = member.memb_no;
-  const docs = member.documents || {};
-  const due = Number(member.current_due || 0);
-  const receipts = Array.isArray(docs.receipts) ? docs.receipts : [];
-  els.detail.className = "detail-panel";
-  els.detail.innerHTML = `
-    <div class="member-title">
-      <div>
-        <h2>${escapeHtml(member.memb_name)}</h2>
-        <p>${escapeHtml(member.memb_no)} · Batch ${escapeHtml(member.batch)} · IIHT ${escapeHtml(member.institute)}</p>
-      </div>
-      
-    </div>
+
+    currentMemberNo = member.memb_no;
+
+    els.detail.style.display = "block";
+
+    console.log("Photo:", member.photo);
+
+    const docs = member.documents || {};
+
+    const currentIndex = filtered.findIndex(
+        m => m.memb_no === member.memb_no
+    );
+
+    const prevDisabled = currentIndex <= 0;
+
+    const nextDisabled =
+        currentIndex >= filtered.length - 1;
+
+    const due = Number(member.current_due || 0);
+
+    const receipts =
+        Array.isArray(docs.receipts)
+            ? docs.receipts
+            : [];
+
+    els.detail.className = "detail-panel";
+
+    els.detail.innerHTML = `
+        <div class="member-title">
+            <div>
+                <h2>${escapeHtml(member.memb_name)}</h2>
+                <p>
+                    ${escapeHtml(member.memb_no)}
+                    · Batch ${escapeHtml(member.batch)}
+                    · IIHT ${escapeHtml(member.institute)}
+                </p>
+            </div>
+        </div>
 
     <div class="profile-section">
 
@@ -315,48 +362,23 @@ console.log("Photo:", member.photo);
       
       <div class="detail-nav">
 
-          <button id="prevBtn">
+          <button type="button" id="prevBtn" ${prevDisabled ? "disabled" : ""}>
               ◀ Previous
           </button>
 
-          <button id="homeBtn">
+          <button type="button" id="homeBtn">
               Home
           </button>
 
-          <button id="nextBtn">
+          <button type="button" id="nextBtn" ${nextDisabled ? "disabled" : ""}>
               Next ▶
           </button>
 
       </div>
     
   `;
-
-    renderListActiveOnly();
-
-    const homeBtn = document.getElementById("homeBtn");
-
-    if (homeBtn) {
-
-        homeBtn.addEventListener("click", () => {
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        });
-
-    }
-  
 }
-
-
-function renderListActiveOnly() {
-  document.querySelectorAll(".member-row").forEach(row => {
-    row.classList.toggle("active", row.dataset.memb === selectedMemberNo);
-  });
-}
-
+    
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -375,54 +397,79 @@ function escapeAttr(value) {
 els.search.addEventListener("input", applyFilters);
 els.type.addEventListener("change", applyFilters);
 els.batch.addEventListener("change", applyFilters);
-els.refresh.addEventListener("click", loadIndex);
-els.list.addEventListener("click", event => {
+if (els.refresh) {
+    els.refresh.addEventListener("click", loadIndex);
+}
 
-    const button =
-        event.target.closest(".member-row[data-memb]");
+document.addEventListener("click", event => {
 
-    if (!button) return;
+    console.log("Clicked:", event.target.id);
 
-    const membNo =
-        button.dataset.memb;
+    // OPEN MEMBER
+    const openBtn = event.target.closest(".open-member-btn");
 
-    if (selectedMemberNo === membNo) {
+    if (openBtn) {
 
-        selectedMemberNo = "";
-        selectedMember = null;
+        const member = members.find(
+            m => m.memb_no === openBtn.dataset.memb
+        );
 
-        els.memberDetailsBtn.disabled = true;
+        if (!member) return;
 
-    } else {
+        renderMember(member);
 
-        selectedMemberNo = membNo;
+        els.detail.classList.add("active");
 
-        selectedMember =
-            members.find(
-                m => m.memb_no === membNo
-            );
+        setTimeout(() => {
+    	    els.detail.scrollIntoView({
+        	behavior: "smooth",
+        	block: "start"
+    	    });
+	}, 50);
 
-        els.memberDetailsBtn.disabled = false;
-
+        return;
     }
 
-    renderListActiveOnly();
+    // HOME
+    if (event.target.id === "homeBtn") {
 
-});
+        els.detail.classList.remove("active");
 
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
-els.memberDetailsBtn.addEventListener("click", () => {
+        return;
+    }
 
-    if (!selectedMember) return;
+    // PREVIOUS
+    if (event.target.id === "prevBtn") {
 
-    renderMember(selectedMember);
+        const idx = filtered.findIndex(
+            m => m.memb_no === currentMemberNo
+        );
 
-    els.detail.style.display = "block";
+        if (idx > 0) {
+            renderMember(filtered[idx - 1]);
+        }
 
-    window.scrollTo({
-        top: els.detail.offsetTop - 15,
-        behavior: "smooth"
-    });
+        return;
+    }
+
+    // NEXT
+    if (event.target.id === "nextBtn") {
+
+        const idx = filtered.findIndex(
+            m => m.memb_no === currentMemberNo
+        );
+
+        if (idx < filtered.length - 1) {
+            renderMember(filtered[idx + 1]);
+        }
+
+        return;
+    }
 
 });
     
@@ -433,4 +480,4 @@ if ("serviceWorker" in navigator) {
 
 loadIndex();
 
-els.memberDetailsBtn.disabled = true;
+

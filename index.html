@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#123a63">
+  <link rel="icon" type="image/png" href="favicon.PNG">
   <title>IIHT Alumni Members</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
@@ -57,7 +58,7 @@
 </section>
 
   <main class="app-shell">
-    <section class="toolbar" aria-label="Search and filters">
+    <section id="page1Toolbar" class="toolbar">
       <label class="search-box">
         <span>Search</span>
         <input id="searchInput" type="search" placeholder="Name, membership no, batch, mobile">
@@ -85,21 +86,14 @@
       
     </section>
 
-    <section class="content-grid">
+    <section id="page1Content" class="content-grid">
       <aside class="member-list-panel">
         <div id="memberList" class="member-list"></div>
       </aside>
       
     </section>
 
-    <div class="member-details-row">
-
-        <button id="memberDetailsBtn">
-            Member Details
-        </button>
-
-    </div>
-
+    
     <section id="detailPanel" class="detail-panel empty">
             <h2>Select a member</h2>
             <p>Search or tap a member name to view card, ledger, and receipts.</p>

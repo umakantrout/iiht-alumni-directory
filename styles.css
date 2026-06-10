@@ -29,6 +29,20 @@ body {
     margin: 10px 0;
 }
 
+.open-member-btn{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:8px;
+    background:#0d6efd;
+    color:white;
+    font-size:24px;
+    font-weight:700;
+    cursor:pointer;
+    flex-shrink:0;
+    margin-left:10px;
+}
+
 
 #memberDetailsBtn{
     width:100%;
@@ -52,6 +66,12 @@ body {
     background: linear-gradient(135deg, #0d6efd, #084298);
     color: white;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+#prevBtn:disabled,
+#nextBtn:disabled{
+    opacity:0.4;
+    cursor:not-allowed;
 }
 
 #prevBtn,
@@ -259,16 +279,14 @@ input:focus, select:focus {
     overflow-y:auto;
 }
 
-.member-row {
-  width: 100%;
-  display: block;
-  padding: 12px;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-  text-align: left;
-  color: var(--ink);
-  cursor: pointer;
+.member-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    padding:12px;
+    border-bottom:1px solid var(--line);
+    box-sizing:border-box;
 }
 
 .member-row:hover,
@@ -287,6 +305,25 @@ input:focus, select:focus {
   margin-top: 4px;
   color: var(--muted);
   font-size: 12px;
+}
+
+
+.member-info{
+    flex:1;
+    min-width:0;
+}
+
+.open-member-btn{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:8px;
+    background:#0d6efd;
+    color:white;
+    font-size:24px;
+    font-weight:700;
+    cursor:pointer;
+    flex-shrink:0;
 }
 
 .detail-panel {
@@ -457,8 +494,9 @@ input:focus, select:focus {
   background: var(--soft);
 }
 
-.action-buttons{
-    margin-top:12px;
+.action-btn{
+    flex:1;
+    text-align:center;
 }
 
 .action-btn{
