@@ -223,116 +223,155 @@ function renderMember(member) {
 
     const due = Number(member.current_due || 0);
 
+    let dueClass = "due-clear";
+
+    if (due > 0 && due < 1000) {
+        dueClass = "due-warning";
+    }
+
+    if (due >= 1000) {
+        dueClass = "due-danger";
+    }
+
     const receipts =
         Array.isArray(docs.receipts)
             ? docs.receipts
             : [];
 
+    // FILTER TEXT
+    let filterText = [];
+
+    if (els.batch.value)
+        filterText.push(`Batch ${els.batch.value}`);
+
+    if (els.type.value)
+        filterText.push(els.type.value);
+
+    const currentFilter =
+        filterText.length
+            ? filterText.join(" • ")
+            : "All Members";
+
     els.detail.className = "detail-panel";
 
     els.detail.innerHTML = `
+
+        <div class="filter-banner">
+            Showing: ${currentFilter}
+        </div>
+
         <div class="member-title">
             <div>
                 <h2>${escapeHtml(member.memb_name)}</h2>
-                <p>
-                    ${escapeHtml(member.memb_no)}
-                    · Batch ${escapeHtml(member.batch)}
-                    · IIHT ${escapeHtml(member.institute)}
-                </p>
+
+		<p class="member-meta1">
+    		    ${escapeHtml(member.current_memb || "")}
+    		    &nbsp;&nbsp;
+    		    ${escapeHtml(member.memb_no)}
+		</p>
+
+		<p class="member-meta2">
+    		    Batch ${escapeHtml(member.batch)}
+    		    • IIHT ${escapeHtml(member.institute)}
+		</p>
+		<div class="member-mobile-row">
+
+    		    <span class="mobile-label">
+        		Mobile :
+    		    </span>
+
+    		    <span class="mobile-number">
+        		${escapeHtml(member.mobile || "")}
+    		    </span>
+
+    		    <a class="mini-wa-btn"
+       		       href="https://wa.me/91${String(member.mobile).replace(/\D/g,'')}"
+                       target="_blank">
+
+                       WhatsApp
+
+    		</a>
+
+	    </div>
+
             </div>
         </div>
+        
 
-    <div class="profile-section">
+      <div class="profile-section">
 
-      <div class="profile-photo">
+    	  <div class="profile-photo">
 
-        ${member.photo
-          ? `<img src="${member.photo}" alt="${escapeHtml(member.memb_name)}">`
-          : `<div class="photo-placeholder">PHOTO</div>`
-        }
-
-      </div>
-
-      <div class="profile-actions">
-
-          <span class="badge">
-            ${escapeHtml(member.current_memb || "")}
-          </span>
-
-          <a class="wa-btn"
-             href="https://wa.me/91${String(member.mobile).replace(/\D/g,'')}"
-             target="_blank">
-             WhatsApp
-          </a>
-
-          ${docs.membership_card?.exists
-  	    ? `<a class="action-btn"
-        	    href="${docs.membership_card.url}"
-        	    target="_blank">
-        	    Membership Card
-     	    </a>`
-  	    : ""
-	  }
-
-	  ${docs.ledger?.exists
-  	    ? `<a class="action-btn"
-        	  href="${docs.ledger.url}"
-        	  target="_blank">
-        	  Ledger
-     	       </a>`
-  	    : ""
-          }
-
-      </div>
-
-    </div>
-
-    <div class="profile-body">
-
-      <div class="info-row">
-          <span>Current Due</span>
-          <strong class="value-box">
-              ${money(due)}
-          </strong>
-      </div>
-
-      <div class="info-row">
-
-          <span>Amount Received</span>
-
-          <div class="value-group">
-
-              <strong class="value-box">
-                  ${money(member.amount_received)}
-              </strong>
-
-              <button class="receipt-btn"
-                      onclick="openReceiptFolder('${docs.receipt_folder?.mega_link || ''}')">
-                  View Receipts
-              </button>
+              ${member.photo
+                ? `<img src="${member.photo}" alt="${escapeHtml(member.memb_name)}">`
+                : `<div class="photo-placeholder">PHOTO</div>`
+              }
 
           </div>
 
+          <div class="photo-due">
+
+              <span>Current Due</span>
+
+              <strong class="value-box ${dueClass}">
+                  ${money(due)}
+              </strong>
+
+          </div>
+
+	  <div class="photo-received">
+
+    	      <span>Amount Received</span>
+
+    	      <strong class="value-box">
+        	  ${money(member.amount_received)}
+    	  </strong>
+
+	  </div>
+
       </div>
 
-      <div class="info-row">
-          <span>Mobile</span>
-          <strong class="value-box">
-              ${escapeHtml(member.mobile || "")}
-          </strong>
+      <div class="photo-actions">
+
+          ${docs.membership_card?.exists
+              ? `<a class="action-btn"
+                    href="${docs.membership_card.url}"
+                    target="_blank">
+                    Membership Card
+                 </a>`
+              : ""
+          }
+
+          ${docs.ledger?.exists
+              ? `<a class="action-btn"
+                    href="${docs.ledger.url}"
+                    target="_blank">
+                    Ledger
+                 </a>`
+              : ""
+          }
+
+          <button class="receipt-btn"
+                  onclick="openReceiptFolder('${docs.receipt_folder?.mega_link || ''}')">
+              View Receipts
+          </button>
+       
       </div>
 
+      
+    <div class="profile-body">
+                  
       <div class="info-row">
           <span>State</span>
           <strong class="value-box">
-              ${escapeHtml(member.state || "")}
+              ${escapeHtml((member.state || "").trim() || "No Information")}
           </strong>
       </div>
 
       <div class="info-row">
           <span>Current Location</span>
           <strong class="value-box">
-              ${escapeHtml(member.current_location || "")}
+              ${escapeHtml((member.current_location || "").trim() || "No Information")}
           </strong>
       </div>
 
