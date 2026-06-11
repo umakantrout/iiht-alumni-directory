@@ -239,6 +239,7 @@ function renderMember(member) {
             : [];
 
     // FILTER TEXT
+
     let filterText = [];
 
     if (els.batch.value)
@@ -247,11 +248,23 @@ function renderMember(member) {
     if (els.type.value)
         filterText.push(els.type.value);
 
-    const currentFilter =
-        filterText.length
-            ? filterText.join(" • ")
-            : "All Members";
+    let currentFilter;
 
+    if (filtered.length === 1) {
+
+        currentFilter =
+            filtered[0].memb_name;
+
+    } else {
+
+        currentFilter =
+            filterText.length
+                ? filterText.join(" • ")
+                : "All Members";
+
+    }
+
+        
     els.detail.className = "detail-panel";
 
     els.detail.innerHTML = `
@@ -259,7 +272,7 @@ function renderMember(member) {
         <div class="filter-banner">
             Showing: ${currentFilter}
         </div>
-
+    
         <div class="member-title">
             <div>
                 <h2>${escapeHtml(member.memb_name)}</h2>
@@ -309,26 +322,26 @@ function renderMember(member) {
 
           </div>
 
-          <div class="photo-due">
+          <div class="photo-due-section">
 
-              <span>Current Due</span>
+              <div class="photo-due">
+                  <span>Current Due</span>
+                  <strong class="value-box ${dueClass}">
+                      ${money(due)}
+                  </strong>
+              </div>
 
-              <strong class="value-box ${dueClass}">
-                  ${money(due)}
-              </strong>
+              <hr class="due-divider">
+
+              <div class="photo-received">
+                  <span>Amount Received</span>
+                  <strong class="value-box">
+                      ${money(member.amount_received)}
+                  </strong>
+              </div>
 
           </div>
-
-	  <div class="photo-received">
-
-    	      <span>Amount Received</span>
-
-    	      <strong class="value-box">
-        	  ${money(member.amount_received)}
-    	  </strong>
-
-	  </div>
-
+      
       </div>
 
       <div class="photo-actions">
